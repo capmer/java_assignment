@@ -1,0 +1,111 @@
+package binary;
+import java.util.Scanner;
+
+public class BinaryTree {
+	
+	Node root;
+	
+	public void addNode(int key, String number){
+		Node newNode = new Node(key, number);
+		
+		if(root == null){
+			root = newNode;
+		}
+		else{
+			Node focusNode = root;
+			Node parent;
+			while(true){
+				parent = focusNode;
+				if(key < focusNode.key){
+					focusNode = focusNode.leftBranch;
+					
+					if(focusNode == null){
+						parent.leftBranch = newNode;
+						return;
+					}
+				} else{
+					focusNode = focusNode.rightBranch;
+					if (focusNode == null){
+						parent.rightBranch = newNode;
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	public void TraverseTree(Node focusNode){
+		if (focusNode != null){
+			
+
+			TraverseTree(focusNode.leftBranch);
+			
+			System.out.println(focusNode);
+
+			
+			TraverseTree(focusNode.rightBranch);
+		}
+	}
+	
+	public Node findNode(int key){
+		
+		Node focusNode = root;
+		
+		while(focusNode.key != key){
+			if (key < focusNode.key){
+				focusNode = focusNode.leftBranch;
+			}
+			else{
+				focusNode = focusNode.rightBranch;
+			}
+			if (focusNode == null)
+				return null;
+		}
+		return focusNode;
+	}
+
+	public static void main(String[] args){
+		
+		BinaryTree theTree = new BinaryTree();
+		
+		theTree.addNode(50, "Anna");
+		theTree.addNode(25, "Benjamin");
+		theTree.addNode(20, "Dominik");
+		theTree.addNode(55, "Elise");
+		theTree.addNode(60, "Fabian");
+		theTree.addNode(35, "Gavin");
+
+
+		theTree.TraverseTree(theTree.root);
+		
+		//test findNote
+		System.out.println("Enter a key to search for:");
+		Scanner input = new Scanner(System.in);
+		int searchValue =  input.nextInt();
+		System.out.println(theTree.findNode(searchValue));
+		
+	}
+}
+
+
+class Node {
+	
+	int key;
+	String name;
+	
+	Node leftBranch;
+	Node rightBranch;
+	
+	//constructor
+	Node(int key, String name){
+		
+		this.key = key;
+		this.name = name;
+				
+		
+	}
+	
+	public String toString(){
+		return name + " has the key " + key;
+	}
+}
